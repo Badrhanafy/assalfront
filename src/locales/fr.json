@@ -1,0 +1,210 @@
+{
+  "header": {
+    "search_results": "Résultats de recherche pour",
+    "view_all_results": "Voir tous les résultats",
+    "no_products_found": "Aucun produit trouvé",
+    "try_different_keywords": "Essayez d'autres mots-clés ou parcourez les catégories",
+    "title": "Miel aux Herbes",
+    "home": "Accueil",
+    "products": "Produits",
+    "about": "À propos",
+    "search": "Rechercher des produits...",
+    "profile": "Profil",
+    "shopping_cart": "Panier",
+    "my_orders": "Mes Commandes",
+    "logout": "Déconnexion",
+    "login": "Connexion"
+  },
+  "cart": {
+    "your_cart": "Votre Panier",
+    "item": "{{count}} article",
+    "items": "{{count}} articles",
+    "empty_cart_title": "Votre panier est vide",
+    "empty_cart_description": "Commencez à ajouter des produits à votre panier !",
+    "each": "chaque",
+    "remove": "Supprimer",
+    "subtotal": "Sous-total",
+    "shipping_notice": "Livraison et taxes calculées à la caisse.",
+    "complete_order": "Finaliser la Commande",
+    "view_cart": "Voir le Panier",
+    "continue_shopping": "Continuer les Achats",
+    "close_cart": "Fermer le panier",
+    "decrease_quantity": "Diminuer la quantité",
+    "increase_quantity": "Augmenter la quantité"
+  },
+  "product": {
+    "fetch_error": "Échec de la récupération des détails du produit",
+    "not_found": "Produit non trouvé",
+    "on_promo": "En Promotion",
+    "ingredients": "Ingrédients",
+    "weight": "Poids",
+    "quantity": "Quantité",
+    "available": "Disponible: {{stock}}",
+    "add_to_cart": "Ajouter au panier",
+    "added_to_cart": "{{quantity}} {{name}} ajouté(s) au panier!",
+    "fill_info_error": "Veuillez remplir toutes vos informations avant d'acheter",
+    "order_placed": "Commande passée! Total: {{total}} €",
+    "review_thanks": "Merci pour votre avis!",
+    "leave_review": "Laisser un avis",
+    "your_rating": "Votre note",
+    "comment": "Commentaire",
+    "comment_placeholder": "Partagez votre expérience avec ce produit...",
+    "customer_reviews": "Avis des clients",
+    "publish_review": "Publier un avis",
+    "no_reviews": "Aucun avis pour ce produit pour le moment.",
+    "similar_products": "Produits similaires",
+    "no_similar_products": "Aucun produit similaire trouvé.",
+    "complete_order": "Complétez votre commande",
+    "total": "Total",
+    "name": "Nom",
+    "phone": "Téléphone",
+    "city": "Ville",
+    "delivery_address": "Adresse de livraison",
+    "address_placeholder": "Entrez votre adresse de livraison complète",
+    "order_note": "Note de commande",
+    "order_note_placeholder": "Instructions spéciales pour votre commande...",
+    "complete_purchase": "Finaliser l'achat",
+    "decrease_quantity": "Diminuer la quantité",
+    "increase_quantity": "Augmenter la quantité",
+    "star_rating": "Noter {{star}} étoiles"
+  },
+  "common": {
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "optional": "Optionnel",
+    "currency": "{{value}} €"
+  },
+  "home": {
+    "slide1": {
+      "title": "Miel aux Herbes Naturel Pur",
+      "description": "Découvrez le pouvoir guérisseur de la nature avec notre collection premium de miel aux herbes",
+      "cta_text": "Acheter Maintenant"
+    },
+    "slide2": {
+      "title": "Promotions Spéciales",
+      "description": "Profitez de remises limitées sur nos produits les plus populaires",
+      "cta_text": "Voir les Offres"
+    },
+    "learn_more": "En Savoir Plus",
+    "previous_slide": "Diapositive précédente",
+    "next_slide": "Diapositive suivante",
+    "go_to_slide": "Aller à la diapositive {{number}}",
+    "loading_slides": "Chargement des diapositives...",
+    "why_choose_us": "Pourquoi Choisir Notre Miel aux Herbes",
+    "features": {
+      "natural": {
+        "title": "100% Naturel",
+        "description": "Notre miel est pur, brut et exempt d'additifs ou de conservateurs."
+      },
+      "healing": {
+        "title": "Propriétés Curatives",
+        "description": "Enrichi d'herbes connues pour leurs bienfaits médicinaux et leurs pouvoirs de guérison."
+      },
+      "love": {
+        "title": "Fait avec Amour",
+        "description": "Élaboré avec soin par des apiculteurs locaux qui respectent les méthodes traditionnelles."
+      }
+    },
+    "popular_products": "Nos Produits Populaires",
+    "products_description": "Découvrez nos variétés de miel aux herbes les plus appréciées, chacune avec des bienfaits et des saveurs uniques.",
+    "products": {
+      "raw_honey": { "name": "Miel de Fleurs Sauvages Brut" },
+      "cinnamon_honey": { "name": "Miel Crémeux à la Cannelle" },
+      "comb_honey": { "name": "Boîte de Miel en Rayon" }
+    },
+    "weight": "Poids",
+    "add_to_cart": "Ajouter au Panier",
+    "view_all_products": "Voir Tous les Produits",
+    "our_story": "Notre Histoire",
+    "story_paragraph1": "Fondée par des passionnés d'apiculture, Herbal Honey a commencé comme une petite entreprise familiale avec seulement quelques ruches. Notre passion pour la guérison naturelle et les pratiques durables s'est transformée en une mission de partager les bienfaits du miel infusé aux herbes avec le monde.",
+    "story_paragraph2": "Aujourd'hui, nous travaillons avec un réseau d'apiculteurs locaux qui partagent notre engagement envers l'apiculture éthique et la gestion environnementale. Chaque lot de miel est soigneusement infusé avec des herbes biologiques pour créer des produits non seulement délicieux mais aussi offrant de véritables bienfaits pour la santé.",
+    "beekeeper_alt": "Apiculteur avec du miel",
+    "testimonials": "Ce que Disent Nos Clients",
+    "testimonial1": {
+      "text": "C'est le meilleur miel que j'ai jamais goûté ! Le miel infusé à la lavande m'aide beaucoup à mieux dormir.",
+      "author": "Sarah G.",
+      "role": "Cliente Régulière"
+    },
+    "testimonial2": {
+      "text": "Le miel de Manuka a énormément aidé avec mes allergies saisonnières. Je n'utiliserai plus aucune autre marque maintenant.",
+      "author": "Michael J.",
+      "role": "Acheteur Vérifié"
+    },
+    "testimonial3": {
+      "text": "Le miel au gingembre et curcuma est parfait pour apaiser les maux de gorge. Toute ma famille l'adore !",
+      "author": "Emma R.",
+      "role": "Nouvelle Cliente"
+    },
+    "newsletter": {
+      "title": "Restez Informé",
+      "description": "Abonnez-vous à notre newsletter pour recevoir des mises à jour sur les nouveaux produits, les offres spéciales et les conseils santé.",
+      "placeholder": "Votre adresse email",
+      "button": "S'abonner"
+    }
+  },
+
+    "about": {
+    "hero": {
+      "title": "À propos de Herbal Honey",
+      "description": "Depuis plus d'une décennie, nous nous consacrons à fournir les produits de miel aux herbes les plus purs et les plus bénéfiques directement des bienfaits de la nature."
+    },
+    "story": {
+      "title": "Notre Histoire",
+      "paragraph1": "Fondée par des passionnés d'apiculture, Herbal Honey a commencé comme une petite entreprise familiale avec seulement quelques ruches. Notre passion pour la guérison naturelle et les pratiques durables s'est transformée en une mission de partager les bienfaits du miel infusé aux herbes avec le monde.",
+      "paragraph2": "Aujourd'hui, nous travaillons avec un réseau d'apiculteurs locaux qui partagent notre engagement envers l'apiculture éthique et la gestion environnementale. Chaque lot de miel est soigneusement infusé avec des herbes biologiques pour créer des produits non seulement délicieux mais aussi offrant de véritables bienfaits pour la santé.",
+      "paragraph3": "Nous croyons au pouvoir de la nature pour guérir et nourrir, et nous nous engageons à préserver les méthodes traditionnelles d'apiculture tout en innovant avec de nouveaux mélanges d'herbes qui répondent aux besoins de bien-être modernes.",
+      "image_alt": "Apiculteur avec du miel"
+    },
+    "values": {
+      "title": "Nos Valeurs",
+      "description": "Ces principes fondamentaux guident tout ce que nous faisons, de l'apiculture à la création de produits.",
+      "purity": {
+        "title": "Pureté",
+        "description": "Nous n'utilisons jamais d'additifs, de conservateurs ou d'ingrédients artificiels. Notre miel est toujours cru et non pasteurisé pour préserver ses enzymes naturelles et ses bienfaits pour la santé."
+      },
+      "sustainability": {
+        "title": "Durabilité",
+        "description": "Nous pratiquons et promouvons des méthodes d'apiculture durables qui protègent les populations d'abeilles et leurs habitats naturels pour les générations à venir."
+      },
+      "healing": {
+        "title": "Guérison",
+        "description": "Nous sélectionnons soigneusement des herbes connues pour leurs propriétés médicinales pour créer des mélanges de miel qui soutiennent la guérison naturelle et le bien-être général."
+      }
+    }},
+
+
+
+    "products": {
+    "title": "Nos Produits",
+    "description": "Découvrez notre gamme de produits de miel aux herbes premium, chacun fabriqué avec soin et des ingrédients naturels.",
+    "on_promo": "En Promotion",
+    "ingredients": "Ingrédients",
+    "weight": "Poids",
+    "see_details": "Voir les détails",
+    "loading": "Chargement des produits...",
+    "fetch_error": "Échec du chargement des produits. Affichage des produits d'exemple.",
+    "no_products": "Aucun produit disponible",
+    "check_back": "Veuillez revenir plus tard pour les nouvelles arrivées.",
+    "fallback": {
+      "manuka": {
+        "name": "Miel aux Herbes de Manuka",
+        "description": "Riche en antioxydants avec de puissantes propriétés antibactériennes.",
+        "ingredient1": "Miel de Manuka",
+        "ingredient2": "Herbes Biologiques"
+      },
+      "lavender": {
+        "name": "Miel Infusé à la Lavande",
+        "description": "Propriétés calmantes avec un arôme et une saveur florale délicats.",
+        "ingredient1": "Miel de Fleurs Sauvages",
+        "ingredient2": "Essence de Lavande"
+      },
+      "ginger": {
+        "name": "Miel au Gingembre et Curcuma",
+        "description": "Mélange anti-inflammatoire parfait pour apaiser les maux de gorge.",
+        "ingredient1": "Miel de Trèfle",
+        "ingredient2": "Gingembre Frais",
+        "ingredient3": "Curcuma Biologique"
+      }
+    }
+  }
+}
