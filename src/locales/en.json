@@ -206,6 +206,37 @@
         "ingredient3": "Organic Turmeric"
       }
     }
+  },
+  "orders": {
+    "my_orders": "My Orders",
+    "order_history": "Your order history and details",
+    "fetch_error": "Failed to load orders",
+    "no_orders": "No orders yet",
+    "no_orders_desc": "You haven't placed any orders yet.",
+    "start_shopping": "Start Shopping",
+    "order": "Order",
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "shipped": "Shipped"
+    },
+    "cancel_order": "Cancel Order",
+    "cancel_confirm_title": "Cancel Order?",
+    "cancel_confirm_message": "Are you sure you want to cancel this order? This action cannot be undone.",
+    "confirm_cancel": "Yes, Cancel Order",
+    "cancelling": "Cancelling...",
+    "cancel_success": "Order cancelled successfully",
+    "cancel_error": "Failed to cancel order",
+    "shipping_address": "Shipping Address",
+    "payment_info": "Payment Information",
+    "payment_method": "Payment Method",
+    "payment_status": "Payment Status",
+    "order_items": "Order Items",
+    "quantity": "Quantity",
+    "each": "each",
+    "total": "Total"
   }
 
 }

@@ -9,6 +9,7 @@ import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
 import ProductDetails from "../pages/ProductDetails.jsx";
 import Cart from "../components/Cart.jsx";
 import ScrollFloat from "../pages/ScrollFloat.jsx";
+import OrderHistory from "../pages/OrderHistory.jsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
   {
     path: "/Cart",
     element: <Cart />,
+  },
+  {
+    path: "/user/:id/orders",
+    element:<OrderHistory />
   }
  
 ]);

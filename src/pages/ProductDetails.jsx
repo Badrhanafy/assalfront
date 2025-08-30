@@ -1,7 +1,7 @@
 // src/components/ProductDetails.jsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
@@ -9,164 +9,239 @@ import { addToCart } from '../utils/cartUtils';
 import ClickSpark from '../components/ClickSpark';
 
 const StarRating = ({ value = 0, onChange }) => {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    return (
-        <div className="flex space-x-1" dir="ltr"> {/* Force LTR for star rating */}
-            {[1, 2, 3, 4, 5].map((star) => (
-                <svg
-                    key={star}
-                    onClick={() => onChange(star)}
-                    className={`w-7 h-7 cursor-pointer transition-colors duration-200 ${star <= value ? 'text-yellow-400' : 'text-gray-300 hover:text-yellow-300'}`}
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    aria-label={t('product.star_rating', { star })}
-                >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-            ))}
-        </div>
-    );
+  return (
+    <div className="flex space-x-1" dir="ltr"> {/* Force LTR for star rating */}
+      {[1, 2, 3, 4, 5].map((star) => (
+        <svg
+          key={star}
+          onClick={() => onChange(star)}
+          className={`w-7 h-7 cursor-pointer transition-colors duration-200 ${star <= value ? 'text-yellow-400' : 'text-gray-300 hover:text-yellow-300'}`}
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          aria-label={t('product.star_rating', { star })}
+        >
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ))}
+    </div>
+  );
 };
 
 const ProductDetails = () => {
-    const { t, i18n } = useTranslation();
-    const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [quantity, setQuantity] = useState(1);
-    const [orderNote, setOrderNote] = useState('');
-    const [showReviewModal, setShowReviewModal] = useState(false);
-    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [orderNote, setOrderNote] = useState('');
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+   const userString = localStorage.getItem('user'); // kayjib string
+const user = JSON.parse(userString); // daba object
+console.log(user);
+  // Review form state
+  const [reviewStars, setReviewStars] = useState(0);
+  const [reviewComment, setReviewComment] = useState('');
 
-    // Review form state
-    const [reviewStars, setReviewStars] = useState(0);
-    const [reviewComment, setReviewComment] = useState('');
+  // Auto-fill user info from localStorage
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    phone: '',
+    city: '',
+    address: '',
+  });
 
-    // Auto-fill user info from localStorage
-    const [userInfo, setUserInfo] = useState({
-        name: '',
-        phone: '',
-        city: '',
-        address: '',
-    });
+  const { id } = useParams();
+  const isRTL = i18n.language === 'ar';
+const token = localStorage.getItem('token')
+  // Create axios instance with auth token
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:8000/api',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    ...(token && { Authorization: `Bearer ${token}` }),
+  },
+});
 
-    const { id } = useParams();
-    const axiosInstance = axios.create({
-        baseURL: 'http://localhost:8000/api',
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-    });
+  // Add auth token if available
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }, []);
 
-    const isRTL = i18n.language === 'ar';
+  useEffect(() => {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setUserInfo({
+          name: parsed.name || '',
+          phone: parsed.phone || '',
+          city: parsed.city || '',
+          address: parsed.address || '',
+        });
+      } catch {
+        /* ignore */
+      }
+    }
+  }, []);
 
-    useEffect(() => {
-        const stored = localStorage.getItem('user');
-        if (stored) {
-            try {
-                const parsed = JSON.parse(stored);
-                setUserInfo({
-                    name: parsed.name || '',
-                    phone: parsed.phone || '',
-                    city: parsed.city || '',
-                    address: parsed.address || '',
-                });
-            } catch {
-                /* ignore */
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        const fetchProductData = async () => {
-            try {
-                setLoading(true);
-                const { data } = await axiosInstance.get(`/products/${id}`);
-                setProduct(data);
-            } catch (err) {
-                setError(t('product.fetch_error'));
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchProductData();
-    }, [id, t]);
-
-    const toastIt = (message, type = 'success') => {
-        setToast({ show: true, message, type });
-        setTimeout(() => setToast({ show: false, message: '', type }), 3000);
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axiosInstance.get(`http://localhost:8000/api/products/${id}`);
+        setProduct(data);
+      } catch (err) {
+        setError(t('product.fetch_error'));
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
+    fetchProductData();
+  }, [id, t]);
 
-    const handleAddToCart = () => {
-        addToCart(product, quantity);
-        toastIt(t('product.added_to_cart', { quantity, name: product.product_name }));
-    };
+  const toastIt = (message, type = 'success') => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: '', type }), 3000);
+  };
 
-    const handleBuyNow = () => {
-        if (!userInfo.name || !userInfo.phone || !userInfo.city || !userInfo.address) {
-            toastIt(t('product.fill_info_error'), 'error');
-            return;
-        }
-        const total = (parseFloat(product.price) * quantity).toFixed(2);
-        toastIt(t('product.order_placed', { total }));
-    };
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    toastIt(t('product.added_to_cart', { quantity, name: product.product_name }));
+  };
 
-    const handleReviewSubmit = (e) => {
-        e.preventDefault();
-        toastIt(t('product.review_thanks'));
-        setShowReviewModal(false);
-        setReviewStars(0);
-        setReviewComment('');
-    };
+  const handlePlaceOrder = async () => {
+    if (!userInfo.name || !userInfo.phone || !userInfo.city || !userInfo.address) {
+      toastIt(t('product.fill_info_error'), 'error');
+      return;
+    }
 
-    if (loading)
-        return (
-            <div className="max-w-7xl mx-auto px-4 py-16 flex justify-center">
-                <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-                    className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full"
-                />
-            </div>
-        );
+    setIsPlacingOrder(true);
 
-    if (error)
-        return (
-            <div className="max-w-7xl mx-auto px-4 py-16">
-                <div className="bg-red-50 border border-red-200 rounded-md p-4 text-red-800">{error}</div>
-            </div>
-        );
+    try {
+      // Check if user is authenticated
+      const token = localStorage.getItem('token');
+   
+      
+      
+      if (!token) {
+        toastIt(t('product.login_required'), 'error');
+        navigate('/login');
+        return;
+      }
 
-    if (!product)
-        return (
-            <div className="max-w-7xl mx-auto px-4 py-16 text-center text-gray-500">
-                {t('product.not_found')}
-            </div>
-        );
+      // Prepare order data
+      const orderData = {
+        user_id: JSON.parse(localStorage.getItem('user')).id,
+        total_amount: (parseFloat(product.price) * quantity).toFixed(2),
+        status: 'pending',
+        shipping_address: `${userInfo.address}, ${userInfo.city}`,
+        billing_address: `${userInfo.address}, ${userInfo.city}`,
+        payment_method: 'cash_on_delivery',
+        payment_status: 'pending',
+        notes: orderNote,
+        items: [
+          {
+            product_id: product.id,
+            quantity: quantity,
+            unit_price: product.price,
+            total_price: (parseFloat(product.price) * quantity).toFixed(2)
+          }
+        ]
+      };
 
+      // Send order to backend
+      const response = await axiosInstance.post('/orders/create', orderData);
+
+      if (response.data.success) {
+        toastIt(t('product.order_placed_success'), 'success');
+
+        // Redirect to order confirmation page or user orders
+        setTimeout(() => {
+          navigate(`/user/${user.id}/orders`);
+        }, 2000);
+      } else {
+        throw new Error(response.data.message || 'Failed to place order');
+      }
+    } catch (error) {
+      console.error('Order placement error:', error);
+      let errorMessage = t('product.order_error');
+
+      if (error.response?.status === 401) {
+        errorMessage = t('product.login_required');
+        navigate('/login');
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      toastIt(errorMessage, 'error');
+    } finally {
+      setIsPlacingOrder(false);
+    }
+  };
+
+  const handleReviewSubmit = (e) => {
+    e.preventDefault();
+    toastIt(t('product.review_thanks'));
+    setShowReviewModal(false);
+    setReviewStars(0);
+    setReviewComment('');
+  };
+
+  if (loading)
     return (
-        <>
-            {/* Toast */}
-            <Header /> <br /><br /><br />
-            
- <AnimatePresence>
+      <div className="max-w-7xl mx-auto px-4 py-16 flex justify-center">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+          className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full"
+        />
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="bg-red-50 border border-red-200 rounded-md p-4 text-red-800">{error}</div>
+      </div>
+    );
+
+  if (!product)
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-16 text-center text-gray-500">
+        {t('product.not_found')}
+      </div>
+    );
+
+  return (
+    <>
+      {/* Toast */}
+      <Header /> <br /><br /><br />
+
+      <AnimatePresence>
         {toast.show && (
           <motion.div
             initial={{ y: -60, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -60, opacity: 0 }}
-            className={`fixed top-5 left-1/2 -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg z-50 text-white ${
-              toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'
-            }`}
+            className={`fixed top-5 left-1/2 -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg z-50 text-white ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'
+              }`}
             dir={isRTL ? 'rtl' : 'ltr'}
           >
             {toast.message}
           </motion.div>
         )}
       </AnimatePresence>
-      
+
       {/* Review Modal */}
       <AnimatePresence>
         {showReviewModal && (
@@ -223,7 +298,7 @@ const ProductDetails = () => {
         )}
       </AnimatePresence>
 
-      <div 
+      <div
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
         dir={isRTL ? 'rtl' : 'ltr'}
       >
@@ -263,18 +338,18 @@ const ProductDetails = () => {
                     )}
                   </div>
                   <p className="text-gray-600">{product.description}</p>
-                  {product.ingredients?.length > 0 && (
+                  {product.ingredients && Array.isArray(product.ingredients) && (
                     <div>
                       <h3 className="text-sm font-semibold text-gray-700 mb-1">
                         {t('product.ingredients')}
                       </h3>
                       <div className="flex flex-wrap gap-1.5">
-                        {product.ingredients.map((i) => (
+                        {product.ingredients.map((ingredient, index) => (
                           <span
-                            key={i}
+                            key={index}
                             className="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full"
                           >
-                            {i}
+                            {ingredient}
                           </span>
                         ))}
                       </div>
@@ -430,19 +505,29 @@ const ProductDetails = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   type="button"
-                  onClick={handleBuyNow}
-                  className="w-full bg-green-500 text-white py-3 rounded-lg font-medium hover:bg-green-600 transition"
+                  onClick={handlePlaceOrder}
+                  disabled={isPlacingOrder}
+                  className={`w-full py-3 rounded-lg font-medium transition ${isPlacingOrder
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-green-500 hover:bg-green-600 text-white'
+                    }`}
                 >
-                  {t('product.complete_purchase')}
+                  {isPlacingOrder ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      {t('product.placing_order')}
+                    </div>
+                  ) : (
+                    t('product.complete_purchase')
+                  )}
                 </motion.button>
               </form>
             </motion.div>
           </div>
         </div>
       </div>
-           
-        </>
-    );
+    </>
+  );
 };
 
 export default ProductDetails;
