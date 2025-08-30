@@ -46,8 +46,8 @@ const placeNow = (el, slot, skew) =>
   });
 
 const CardSwap = ({
-  width = 320,
-  height = 295,
+  width = 500,
+  height = 400,
   cardDistance = 60,
   verticalDistance = 70,
   delay = 5000,

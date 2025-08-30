@@ -8,6 +8,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FeaturesSection from '../components/FeaturesSection';
 import TrueFocus from '../components/Animating/TrueFocus';
+import { AnimatedTestimonialsDemo } from '../components/testimonials';
+import manahil from '../assets/manahil.jpg'
 // Configure axios
 axios.defaults.baseURL = 'http://localhost:8000/api';
 
@@ -222,6 +224,7 @@ export default function Homepage() {
           )}
         </section>
       )}
+      
 
       {/* Loading State for Slider */}
       {loading && (
@@ -233,13 +236,10 @@ export default function Homepage() {
         </section>
       )}
 
-      {/* Features Section */}
-      <AnimatedSection className="py-16 bg-white">
-        <FeaturesSection />
-      </AnimatedSection>
+      
 
       {/* Products Section */}
-      <AnimatedSection id="products" className="py-16  bg-amber-100" >
+      <AnimatedSection id="products" className="py-16  " >
         <div className="container mx-auto px-4" style={{zIndex:"1000"}}>
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-900 mb-4">
             {t('home.popular_products')}
@@ -285,6 +285,10 @@ export default function Homepage() {
           </div>
         </div>
       </AnimatedSection>
+      {/* Features Section */}
+      <AnimatedSection className=" bg-white">
+        <FeaturesSection />
+      </AnimatedSection>
 
       {/* About Section */}
       <AnimatedSection className="py-16 bg-white">
@@ -310,7 +314,7 @@ export default function Homepage() {
             </div>
             <div className={isRTL ? 'md:order-1' : ''}>
               <img
-                src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+                src={manahil}
                 alt={t('home.beekeeper_alt')}
                 className="rounded-lg shadow-md"
               />
@@ -320,76 +324,8 @@ export default function Homepage() {
       </AnimatedSection>
 
       {/* Testimonials Section */}
-      <AnimatedSection className="py-16 bg-amber-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-900 mb-12">
-            {t('home.testimonials')}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div
-              className="bg-white p-6 rounded-lg shadow-md"
-              whileHover={{ y: -5 }}
-            >
-              <div className="flex items-center mb-4">
-                <div className="text-amber-500 text-2xl">★★★★★</div>
-              </div>
-              <p className="text-amber-700 mb-4">
-                {t('home.testimonial1.text')}
-              </p>
-              <div className="flex items-center">
-                <div className="h-10 w-10 bg-amber-200 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-amber-700 font-semibold">SG</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-amber-900">{t('home.testimonial1.author')}</p>
-                  <p className="text-sm text-amber-600">{t('home.testimonial1.role')}</p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="bg-white p-6 rounded-lg shadow-md"
-              whileHover={{ y: -5 }}
-            >
-              <div className="flex items-center mb-4">
-                <div className="text-amber-500 text-2xl">★★★★★</div>
-              </div>
-              <p className="text-amber-700 mb-4">
-                {t('home.testimonial2.text')}
-              </p>
-              <div className="flex items-center">
-                <div className="h-10 w-10 bg-amber-200 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-amber-700 font-semibold">MJ</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-amber-900">{t('home.testimonial2.author')}</p>
-                  <p className="text-sm text-amber-600">{t('home.testimonial2.role')}</p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="bg-white p-6 rounded-lg shadow-md"
-              whileHover={{ y: -5 }}
-            >
-              <div className="flex items-center mb-4">
-                <div className="text-amber-500 text-2xl">★★★★★</div>
-              </div>
-              <p className="text-amber-700 mb-4">
-                {t('home.testimonial3.text')}
-              </p>
-              <div className="flex items-center">
-                <div className="h-10 w-10 bg-amber-200 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-amber-700 font-semibold">ER</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-amber-900">{t('home.testimonial3.author')}</p>
-                  <p className="text-sm text-amber-600">{t('home.testimonial3.role')}</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+      <AnimatedSection className="py-16 ">
+        <AnimatedTestimonialsDemo/>
       </AnimatedSection>
 
       {/* Newsletter Section */}
