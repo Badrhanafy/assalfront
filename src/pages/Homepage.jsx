@@ -10,6 +10,10 @@ import FeaturesSection from '../components/FeaturesSection';
 import TrueFocus from '../components/Animating/TrueFocus';
 import { AnimatedTestimonialsDemo } from '../components/testimonials';
 import manahil from '../assets/manahil.jpg'
+import bee from '../assets/bee.jpg'
+import ScrollVelocity from '../components/Animating/ScrollVelocity';
+import ClickSpark from '../components/Animating/ClickSpark';
+import { ScrollProgress } from '../components/animate-ui/radix/scroll-progress';
 // Configure axios
 axios.defaults.baseURL = 'http://localhost:8000/api';
 
@@ -135,7 +139,8 @@ export default function Homepage() {
   };
 
   return (
-    <div className="min-h-screen " dir={isRTL ? 'rtl' : 'ltr'}>
+    
+      <div className="min-h-screen " dir={isRTL ? 'rtl' : 'ltr'}>
       <Header />
 
       {/* Hero Slider Section */}
@@ -236,10 +241,18 @@ export default function Homepage() {
         </section>
       )}
 
+    <ScrollVelocity
+  texts={['Al-Naaman Apiaries from nature directly to your hands',
+     'مناحل النعمان  من الطبيعة الى يديك مباشرة']} 
+  velocity={8} 
+  className="custom-scroll-text text-5xl pt-4 pb-4 bg-yellow-500"
+  
+/>
+
       
 
       {/* Products Section */}
-      <AnimatedSection id="products" className="py-16  " >
+      <AnimatedSection id="products" className="py-16  px-12" >
         <div className="container mx-auto px-4" style={{zIndex:"1000"}}>
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-900 mb-4">
             {t('home.popular_products')}
@@ -321,37 +334,34 @@ export default function Homepage() {
             </div>
           </div>
         </div>
-      </AnimatedSection>
+      </AnimatedSection >
 
       {/* Testimonials Section */}
-      <AnimatedSection className="py-16 ">
-        <AnimatedTestimonialsDemo/>
-      </AnimatedSection>
+      <ClickSpark
+     
+  sparkColor='#fff'
+  sparkSize={10}
+  sparkRadius={15}
+  sparkCount={8}
+  duration={400}
+>
+  <AnimatedSection className="  reviews cursor-pointer">
+  {/* overlay only background, no block clicks */}
+  <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
 
-      {/* Newsletter Section */}
-      <AnimatedSection className="py-16 bg-yellow-600 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">{t('home.newsletter.title')}</h2>
-          <p className="max-w-2xl mx-auto mb-8 text-amber-100">
-            {t('home.newsletter.description')}
-          </p>
-          <form className="max-w-md mx-auto flex flex-col md:flex-row gap-4">
-            <input
-              type="email"
-              placeholder={t('home.newsletter.placeholder')}
-              className="flex-grow px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500"
-            />
-            <button
-              type="submit"
-              className="bg-white text-amber-700 font-semibold px-6 py-3 rounded-lg hover:bg-amber-100 transition-colors"
-            >
-              {t('home.newsletter.button')}
-            </button>
-          </form>
-        </div>
-      </AnimatedSection>
+  <div className="relative z-20">
+    <AnimatedTestimonialsDemo />
+  </div>
+  <Footer />
+</AnimatedSection>
 
-      <Footer />
+</ClickSpark>
+
+     
+
+      
+      <ScrollProgress className='' />
     </div>
+    
   );
 }

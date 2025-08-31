@@ -117,8 +117,9 @@ const FeaturesSection = () => {
               {features.map(({ key, icon, title, desc, img }) => (
                 <Card
                   key={key}
-                  className="rounded-xl shadow-lg bg-cover bg-center text-white"
-                  style={{ backgroundImage: `url(${img})` }}
+                  className="rounded-xl shadow-lg bg-cover bg-center cardswaper text-white "
+                  style={{ backgroundImage: `url(${img})`, }}
+                  
                 >
                   <div style={{border:"1px solid orange"}} className="p-6 text-center bg-black/50 h-full rounded-xl">
                     <div className="w-16 h-16 mb-4 mx-auto flex items-center justify-center rounded-full bg-amber-100 text-2xl">

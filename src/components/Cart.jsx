@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Header from './Header';
-
+import schopingAnimation from '../assets/emptybag.json'
+import Lottie from 'lottie-react';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -128,9 +129,16 @@ const Cart = () => {
       
       {cartItems.length === 0 ? (
         <div className="bg-white rounded-lg shadow-md p-8 text-center">
-          <svg className="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
+             <div className='text-center' style={{
+          width:"40vh",
+          textAlign:"center"
+   }}>
+       <Lottie
+                    animationData={schopingAnimation}
+                    loop={true}
+                    autoplay={true}
+                  />
+   </div>
           <h2 className="mt-4 text-xl font-medium text-gray-900">Your cart is empty</h2>
           <p className="mt-2 text-gray-500">Start adding some products to your cart!</p>
           <Link

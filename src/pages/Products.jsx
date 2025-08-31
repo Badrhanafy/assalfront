@@ -81,8 +81,8 @@ const Products = () => {
     if (error) {
         return (
             <div className="min-h-screen flex flex-col" dir={isRTL ? 'rtl' : 'ltr'}>
-                <Header />
-                <main className="flex-grow container mx-auto px-4 py-8">
+                    
+                <main className="flex-grow container mx-auto px-4 py-8 mt-24">
                     <div className="bg-red-50 border border-red-200 rounded-md p-4 text-red-800 text-center">
                         {error}
                     </div>
@@ -94,7 +94,7 @@ const Products = () => {
 
     return (
         <div className="min-h-screen flex flex-col" dir={isRTL ? 'rtl' : 'ltr'}>
-            <Header />
+            <Header /><br /><br /><br />
 
             <main className="flex-grow container mx-auto px-4 py-8">
                 <h1 className="text-4xl font-serif font-bold text-center text-secondary-800 mb-4">

@@ -5,7 +5,8 @@ import axios from 'axios';
 import CartSidebar from './CartSidebar';
 import animationdata from '../assets/beelooking.json';
 import Lottie from 'lottie-react';
-
+import logo from "../assets/llogoAssal.svg"
+import schopingAnimation from '../assets/shooping2.json'
 const Header = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -195,7 +196,7 @@ const Header = () => {
             to="/"
             className="text-2xl font-serif font-bold text-amber-700 transition-colors hover:text-amber-800"
           >
-            {t('header.title')}
+             <img src={logo} alt=""  width={'90vh'} height={"50vh"}/>
           </Link>
 
           {/* Desktop Navigation */}
@@ -440,7 +441,9 @@ const Header = () => {
           >
             <LogoutIcon />
             {t('header.logout')}
+            
           </button>
+          <img src={logo} alt="" />
         </nav>
       </aside>
 
@@ -623,9 +626,15 @@ const UserIcon = ({ className = "w-6 h-6" }) => (
 );
 
 const CartIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-  </svg>
+    <div style={{
+    width:"40px"
+   }}>
+       <Lottie
+                    animationData={schopingAnimation}
+                    loop={true}
+                    autoplay={true}
+                  />
+   </div>
 );
 
 const OrderIcon = ({ className = "w-5 h-5" }) => (

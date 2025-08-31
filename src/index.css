@@ -33,3 +33,34 @@
 body {
   font-family: 'Inter', sans-serif;
 }
+@font-face {
+  font-family: "font1";
+  src: url('./assets/fonts/LemonBrushPersonalUseOnly-Texture.otf');
+}
+@font-face {
+  font-family: "font2";
+  src: url('./assets/fonts/OceanBrushArabicDEMO-Texture.otf');
+}
+@font-face {
+  font-family: "footer";
+  src: url('./assets/fonts/footer2.ttf');
+}
+@font-face {
+  font-family: "footer3";
+  src: url('./assets/fonts/footer3.ttf');
+}
+.custom-scroll-text{
+  font-family: "font2";
+}
+
+.reviews{
+  background-image: url('./assets/bee.jpg');
+  background-size: cover;
+}
+
+.footer p{
+  font-family: "footer2";
+}
+.footer h3 {
+  font-family: "footer3";
+}
