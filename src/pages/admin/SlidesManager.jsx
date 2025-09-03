@@ -32,7 +32,7 @@ const SlidesManager = () => {
 
   const fetchSlides = async () => {
     try {
-      const response = await axiosInstance.get('/slides');
+      const response = await axiosInstance.get('/api/slides');
       setSlides(response.data);
       setLoading(false);
     } catch (error) {
@@ -56,13 +56,13 @@ const SlidesManager = () => {
 
     try {
       if (editingSlide) {
-        await axiosInstance.put(`/slides/${editingSlide.id}`, formDataToSend, {
+        await axiosInstance.put(`/api/slides/${editingSlide.id}`, formDataToSend, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
       } else {
-        await axiosInstance.post('/slides', formDataToSend, {
+        await axiosInstance.post('/api/slides', formDataToSend, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -99,7 +99,7 @@ const SlidesManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this slide?')) {
       try {
-        await axiosInstance.delete(`/slides/${id}`);
+        await axiosInstance.delete(`/api/slides/${id}`);
         fetchSlides();
       } catch (error) {
         console.error('Error deleting slide:', error);

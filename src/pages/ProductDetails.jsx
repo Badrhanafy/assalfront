@@ -208,7 +208,7 @@ const ProductDetails = () => {
       };
 
       // Send order to backend
-      const response = await axiosInstance.post('/orders/create', orderData);
+      const response = await axios.post(`${baseurl}/api/orders/create`, orderData);
 
       if (response.data.success) {
         toastIt(t('product.order_placed_success'), 'success');

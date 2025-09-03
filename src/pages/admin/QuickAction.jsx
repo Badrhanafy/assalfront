@@ -1,18 +1,33 @@
 // src/pages/admin/QuickAction.jsx
-const QuickAction = ({ title, description, icon, section }) => {
+import { motion } from 'framer-motion';
+
+const QuickAction = ({ title, description, icon, section, onClick }) => {
   const handleClick = () => {
-    window.location.hash = section;
+    if (onClick) {
+      onClick(section);
+    }
   };
 
   return (
-    <button
+    <motion.button
       onClick={handleClick}
-      className="relative group bg-white p-6 focus:outline-none border border-gray-200 rounded-lg hover:border-amber-300 hover:shadow-md transition-all"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className="relative group w-full text-left bg-white p-4 focus:outline-none border border-gray-200 rounded-lg hover:border-amber-300 hover:shadow-md transition-all duration-200"
     >
-      <span className="text-2xl mb-3 block">{icon}</span>
-      <span className="text-sm font-medium text-gray-900 group-hover:text-amber-600">{title}</span>
-      <p className="mt-1 text-sm text-gray-500">{description}</p>
-    </button>
+      <div className="flex items-start">
+        <span className="text-2xl mr-4 mt-1">{icon}</span>
+        <div>
+          <span className="block text-sm font-medium text-gray-900 group-hover:text-amber-600 transition-colors">{title}</span>
+          <p className="mt-1 text-xs text-gray-500">{description}</p>
+        </div>
+      </div>
+      <div className="absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition-opacity">
+        <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    </motion.button>
   );
 };
 

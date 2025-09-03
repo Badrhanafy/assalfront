@@ -11,21 +11,30 @@ import Header from './Header';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
-  const [authorized, setAuthorized] = useState(null); // null = كنشيك مازال
+  const [authorized, setAuthorized] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (!user || user.role !== 'admin') {
-      navigate('/', { replace: true }); // redirection مباشرة
+      navigate('/', { replace: true });
     } else {
-      setAuthorized(true); // يقدر يشوف الصفحة
+      setAuthorized(true);
     }
   }, [navigate]);
 
+  // Function to handle quick action clicks
+  const handleQuickAction = (section) => {
+    setActiveSection(section);
+  };
+
   if (authorized === null) {
-    return null; // حتى يتشيك، ما نعرضو والو
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+      </div>
+    );
   }
 
   const renderContent = () => {
@@ -39,7 +48,7 @@ const AdminDashboard = () => {
       case 'analytics':
         return <AnalyticsDashboard />;
       default:
-        return <DashboardOverview />;
+        return <DashboardOverview onQuickAction={handleQuickAction} />;
     }
   };
 
