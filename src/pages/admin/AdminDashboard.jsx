@@ -1,5 +1,6 @@
 // src/pages/admin/AdminDashboard.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardOverview from './DashboardOverview';
 import SlidesManager from './SlidesManager';
 import ProductsManagement from './ProductsManagement';
@@ -10,6 +11,22 @@ import Header from './Header';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
+  const [authorized, setAuthorized] = useState(null); // null = كنشيك مازال
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (!user || user.role !== 'admin') {
+      navigate('/', { replace: true }); // redirection مباشرة
+    } else {
+      setAuthorized(true); // يقدر يشوف الصفحة
+    }
+  }, [navigate]);
+
+  if (authorized === null) {
+    return null; // حتى يتشيك، ما نعرضو والو
+  }
 
   const renderContent = () => {
     switch (activeSection) {
@@ -30,14 +47,11 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-gray-100">
       <Header />
       
-      {/* Main layout container with padding for fixed sidebar */}
-      <div className="flex pt-16"> {/* pt-16 to account for fixed header height */}
-        {/* Fixed sidebar - hidden on mobile, visible on desktop */}
+      <div className="flex pt-16">
         <div className="hidden lg:block w-64 flex-shrink-0">
           <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
         </div>
         
-        {/* Main content area with proper spacing */}
         <main className="flex-1 min-h-screen overflow-y-auto">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:ml-0">
             {renderContent()}
@@ -45,7 +59,6 @@ const AdminDashboard = () => {
         </main>
       </div>
 
-      {/* Mobile sidebar overlay (optional) */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40">
         <div className="flex justify-around py-2">
           {['dashboard', 'products', 'orders', 'analytics'].map((item) => (

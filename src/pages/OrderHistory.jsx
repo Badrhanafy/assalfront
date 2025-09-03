@@ -19,7 +19,7 @@ const OrderHistory = () => {
 
     const isRTL = i18n.language === 'ar';
     const axiosInstance = axios.create({
-        baseURL: 'http://localhost:8000/api',
+        baseURL: import.meta.env.VITE_BACKEND_ENDPOINT,
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'application/json'

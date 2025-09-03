@@ -24,7 +24,7 @@ const SlidesManager = () => {
 
   // Create axios instance with default config
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: import.meta.env.VITE_BACKEND_ENDPOINT,
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
@@ -90,7 +90,7 @@ const SlidesManager = () => {
     
     // Set image preview for existing slide
     if (slide.image) {
-      setImagePreview(`http://localhost:8000/storage/${slide.image}`);
+      setImagePreview(`${import.meta.env.VITE_BACKEND_ENDPOINT}/${slide.image}`);
     }
     
     setShowFormModal(true);

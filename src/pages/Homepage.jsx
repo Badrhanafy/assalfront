@@ -15,7 +15,7 @@ import ScrollVelocity from '../components/Animating/ScrollVelocity';
 import ClickSpark from '../components/Animating/ClickSpark';
 import { ScrollProgress } from '../components/animate-ui/radix/scroll-progress';
 // Configure axios
-axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_ENDPOINT;
 
 // Reusable animated container
 const AnimatedSection = ({ children, className = '' }) => {
@@ -50,7 +50,7 @@ export default function Homepage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
-
+const baseurl = import.meta.env.VITE_BACKEND_ENDPOINT
   const isRTL = i18n.language === 'ar';
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function Homepage() {
 
   const fetchSlides = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/slides');
+      const response = await axios.get(`${baseurl}/api/slides`);
       setSlides(response.data);
     } catch (error) {
       console.error('Error fetching slides:', error);
@@ -99,7 +99,7 @@ export default function Homepage() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/products');
+      const response = await axios.get(`${baseurl}/products`);
       setProducts(response.data.slice(0, 3)); // Show only 3 products on homepage
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -143,7 +143,7 @@ export default function Homepage() {
       <div className="min-h-screen " dir={isRTL ? 'rtl' : 'ltr'}>
       <Header />
 
-      {/* Hero Slider Section */}
+         {/* Hero Slider Section */}
       {!loading && slides.length > 0 && (
         <section className="relative h-screen max-h-[800px] overflow-hidden bg-black">
           {slides.map((slide, index) => (
@@ -158,31 +158,37 @@ export default function Homepage() {
               >
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                   <div className="text-center text-white px-4 max-w-3xl">
-                    <motion.h1
-                      className="text-4xl md:text-6xl font-serif font-bold mb-4"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      {slide.title}
-                    </motion.h1>
-                    <motion.p
-                      className="text-xl md:text-2xl mb-8"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.2 }}
-                    >
-                      {slide.description}
-                    </motion.p>
-                    <motion.a
-                      href={slide.link || "#products"}
-                      className="inline-block bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.4 }}
-                    >
-                      {slide.cta_text || t('home.learn_more')}
-                    </motion.a>
+                    {slide.title && (
+                      <motion.h1
+                        className="text-4xl md:text-6xl font-serif font-bold mb-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                      >
+                        {slide.title}
+                      </motion.h1>
+                    )}
+                    {slide.description && (
+                      <motion.p
+                        className="text-xl md:text-2xl mb-8"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                      >
+                        {slide.description}
+                      </motion.p>
+                    )}
+                    {slide.link && (
+                      <motion.a
+                        href={slide.link}
+                        className="inline-block bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                      >
+                        {slide.cta_text || t('home.learn_more')}
+                      </motion.a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -245,7 +251,7 @@ export default function Homepage() {
   texts={['Al-Naaman Apiaries from nature directly to your hands',
      'مناحل النعمان  من الطبيعة الى يديك مباشرة']} 
   velocity={8} 
-  className="custom-scroll-text text-5xl pt-4 pb-4 bg-yellow-500"
+  className="custom-scroll-text text-5xl pb-2 bg-yellow-500"
   
 />
 

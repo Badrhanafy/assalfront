@@ -66,7 +66,7 @@ const FeaturesSection = () => {
               <SplitText
                 text={t('home.why_choose_us')}
                 className="text-4xl font-semibold text-center"
-                delay={100}
+                delay={40}
                 duration={0.6}
                 ease="power3.out"
                 splitType="chars"

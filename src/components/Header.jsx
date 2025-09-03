@@ -5,8 +5,10 @@ import axios from 'axios';
 import CartSidebar from './CartSidebar';
 import animationdata from '../assets/beelooking.json';
 import Lottie from 'lottie-react';
-import logo from "../assets/llogoAssal.svg"
+import logoPng from "../assets/llogoAssal.png"; // PNG version for non-scrolled state
+import logoSvg from "../assets/llogoAssal.svg"; // SVG version for scrolled state
 import schopingAnimation from '../assets/shooping2.json'
+
 const Header = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -28,7 +30,7 @@ const Header = () => {
   const headerRef = useRef();
   const searchRef = useRef();
   const languageRef = useRef();
-
+ const baseurl = import.meta.env.VITE_BACKEND_ENDPOINT
   // Language configuration
   const languages = [
     { code: 'en', name: 'English', flag: 'https://flagcdn.com/w40/us.png', dir: 'ltr' },
@@ -43,7 +45,7 @@ const Header = () => {
   useEffect(() => {
     const fetchAllProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/products');
+        const response = await axios.get(`${baseurl}/api/products`);
         setAllProducts(response.data);
         setProductsLoaded(true);
       } catch (error) {
@@ -186,41 +188,55 @@ const Header = () => {
       {/* HEADER */}
       <header
         ref={headerRef}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out
-          ${scrolled ? 'bg-yellow-600/90 text-white shadow-lg h-16 backdrop-blur-sm' : 'bg-white/95 shadow-sm h-20 backdrop-blur-sm'}
+        className={`fixed top-0 border-bottom-0 left-0 right-0 z-50 transition-all duration-300 ease-out
+          ${scrolled ? 'bg-yellow-600/90 text-white shadow-lg h-16 backdrop-blur-sm' : 'bg-transparent shadow-sm h-20 '}
           ${i18n.language === 'ar' ? 'font-arabic' : 'font-sans'}`}
       >
         <div className="container mx-auto px-4 h-full flex justify-between items-center">
-          {/* Logo */}
+          {/* Logo - Conditionally render based on scroll state */}
           <Link
             to="/"
             className="text-2xl font-serif font-bold text-amber-700 transition-colors hover:text-amber-800"
           >
-             <img src={logo} alt=""  width={'90vh'} height={"50vh"}/>
+            <img 
+              src={scrolled ? logoSvg : logoPng} 
+              alt="Al-Naaman Apiaries Logo"  
+              width={'80vh'} 
+              height={"40vh"}
+            />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <center>
+               <nav className="hidden md:flex space-x-8">
             {['/', '/products', '/about'].map((path, index) => (
               <Link
                 key={index}
                 to={path}
-                className={`transition-colors px-3 py-2 rounded-lg font-medium ${
+                className={`headlinks relative group px-3 py-2 font-medium transition-all duration-300 ${
                   isActiveRoute(path) 
-                    ? 'text-amber-700 bg-amber-50' 
-                    : 'text-gray-700 hover:text-amber-600 hover:bg-amber-50/50'
+                    ? `${scrolled ? 'text-white' : 'text-amber-700'} font-bold` 
+                    : `${scrolled ? 'text-white/90 hover:text-white' : 'text-yellow-500 hover:text-amber-600'}`
                 }`}
               >
                 {t(`header.${path === '/' ? 'home' : path.slice(1)}`)}
+                
+                {/* Animated underline */}
+                <span className={`absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full ${
+                  isActiveRoute(path) ? 'w-full' : ''
+                }`}></span>
               </Link>
             ))}
           </nav>
+          </center>
 
           {/* Action Icons */}
           <div className="flex items-center space-x-3 sm:space-x-4">
             {/* Search Button */}
             <button
-              className="p-2 text-gray-600 hover:text-amber-600 transition-colors rounded-lg hover:bg-amber-50"
+              className={`p-2 transition-colors rounded-lg hover:bg-amber-50 ${
+                scrolled ? 'text-white/90 hover:text-white' : 'text-yellow-500 hover:text-amber-600'
+              }`}
               onClick={() => setIsSearchOpen(true)}
               aria-label={t('header.search')}
             >
@@ -230,7 +246,12 @@ const Header = () => {
             {/* Language Selector */}
             <div className="relative" ref={languageRef}>
               <button
-                className="flex items-center p-2 text-gray-600 hover:text-amber-600 transition-colors rounded-lg hover:bg-amber-50"
+                style={{
+                  border: scrolled ? "1px solid rgba(255,255,255,0.5)" : "1px solid yellow"
+                }}
+                className={`flex items-center p-2 transition-colors rounded-lg hover:bg-amber-50 ${
+                  scrolled ? 'text-white/90 hover:text-white' : 'text-yellow-500 hover:text-amber-600'
+                }`}
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                 aria-label={t('header.change_language')}
               >
@@ -243,7 +264,7 @@ const Header = () => {
               </button>
 
               {isLanguageOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-2xl p-2 z-50 border border-gray-100">
+                <div className="absolute right-0 mt-2 w-48 bg-white/45 backdrop-blur-50 rounded-xl shadow-2xl p-2 z-50 border border-gray-100">
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
@@ -272,18 +293,24 @@ const Header = () => {
             {/* User Account */}
             {user ? (
               <button
-                className="p-2 text-gray-600 hover:text-amber-600 transition-colors rounded-lg hover:bg-amber-50"
+                className={`p-2 transition-colors rounded-lg hover:bg-amber-50 ${
+                  scrolled ? 'text-white/90 hover:text-white' : 'text-gray-600 hover:text-amber-600'
+                }`}
                 onClick={() => setIsSidebarOpen(true)}
                 aria-label={t('header.user_menu')}
               >
-                <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 font-medium border-2 border-amber-200">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-medium border-2 ${
+                  scrolled ? 'bg-white/20 text-white border-white/30' : 'bg-amber-100 text-amber-700 border-amber-200'
+                }`}>
                   {user.name?.charAt(0).toUpperCase() || 'U'}
                 </div>
               </button>
             ) : (
               <Link
                 to="/login"
-                className="p-2 text-gray-600 hover:text-amber-600 transition-colors rounded-lg hover:bg-amber-50"
+                className={`p-2 transition-colors rounded-lg hover:bg-amber-50 ${
+                  scrolled ? 'text-white/90 hover:text-white' : 'text-gray-600 hover:text-amber-600'
+                }`}
                 aria-label={t('header.login')}
               >
                 <UserIcon />
@@ -293,12 +320,16 @@ const Header = () => {
             {/* Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="p-2 text-gray-600 hover:text-amber-600 relative transition-colors rounded-lg hover:bg-amber-50"
+              className={`p-2 relative transition-colors rounded-lg hover:bg-amber-50 ${
+                scrolled ? 'text-white/90 hover:text-white' : 'text-gray-600 hover:text-amber-600'
+              }`}
               aria-label={t('header.shopping_cart')}
             >
               <CartIcon />
               {cartItemsCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium border-2 border-white">
+                <span className={`absolute -top-1 -right-1 text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium border-2 ${
+                  scrolled ? 'bg-white text-amber-600 border-amber-600' : 'bg-amber-500 text-white border-white'
+                }`}>
                   {cartItemsCount > 99 ? '99+' : cartItemsCount}
                 </span>
               )}
@@ -306,7 +337,9 @@ const Header = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2 text-gray-600 hover:text-amber-600 transition-colors rounded-lg hover:bg-amber-50"
+              className={`md:hidden p-2 transition-colors rounded-lg hover:bg-amber-50 ${
+                scrolled ? 'text-white/90 hover:text-white' : 'text-gray-600 hover:text-amber-600'
+              }`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={t('header.menu')}
             >
@@ -431,8 +464,6 @@ const Header = () => {
             {t('header.my_orders')}
           </SidebarLink>
 
-         
-
           <div className="border-t border-gray-100 my-3" />
 
           <button
@@ -441,9 +472,8 @@ const Header = () => {
           >
             <LogoutIcon />
             {t('header.logout')}
-            
           </button>
-          <img src={logo} alt="" />
+          <img src={logoPng} alt="" />
         </nav>
       </aside>
 
@@ -597,7 +627,6 @@ const SidebarLink = ({ to, onClick, children }) => (
     {children}
   </Link>
 );
-
 // Icons (keep all your existing icon components)
 
 export default Header;

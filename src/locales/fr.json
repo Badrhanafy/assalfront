@@ -1,3 +1,4 @@
+
 {
   "header": {
     "search_results": "Résultats de recherche pour",
@@ -10,21 +11,35 @@
     "about": "À propos",
     "search": "Rechercher des produits...",
     "profile": "Profil",
-    "shopping_cart": "Panier",
+    "shopping_cart": "Panier d'achat",
     "my_orders": "Mes Commandes",
     "logout": "Déconnexion",
     "login": "Connexion"
   },
   "cart": {
+    "fill_info_error": "Veuillez remplir toutes vos informations avant de passer à la caisse",
+    "order_success": "Commande passée avec succès !",
+    "order_error": "Échec de la commande",
+    "insufficient_stock": "Stock insuffisant pour {{product}}. Disponible : {{available}}",
+    "validation_error": "Erreur de validation. Veuillez vérifier vos informations.",
+    "order_error_generic": "Échec de la commande. Veuillez réessayer.",
+    "network_error": "Erreur réseau. Veuillez vérifier votre connexion et réessayer.",
+    "login_required_title": "Connexion Requise",
+    "login_required_message": "Vous devez être connecté pour passer une commande. Veuillez vous connecter pour continuer.",
+    "order_summary": "Récapitulatif de la Commande",
+    "shipping_info": "Informations de Livraison",
+    "processing": "Traitement en cours...",
+    "or": "ou",
+    "cart_items": "Articles du Panier ({{count}} articles)",
     "your_cart": "Votre Panier",
     "item": "{{count}} article",
     "items": "{{count}} articles",
     "empty_cart_title": "Votre panier est vide",
     "empty_cart_description": "Commencez à ajouter des produits à votre panier !",
     "each": "chaque",
-    "remove": "Supprimer",
+    "remove": "Retirer",
     "subtotal": "Sous-total",
-    "shipping_notice": "Livraison et taxes calculées à la caisse.",
+    "shipping_notice": "Frais de port et taxes calculés à la caisse.",
     "complete_order": "Finaliser la Commande",
     "view_cart": "Voir le Panier",
     "continue_shopping": "Continuer les Achats",
@@ -33,37 +48,73 @@
     "increase_quantity": "Augmenter la quantité"
   },
   "product": {
-    "fetch_error": "Échec de la récupération des détails du produit",
+    "order_placed_success": "Commande passée avec succès !",
+    "order_error": "Échec de la commande. Veuillez réessayer.",
+    "invalid_product_error": "Produit invalide. Veuillez actualiser la page et réessayer.",
+    "login_required_title": "Connexion Requise",
+    "login_required_message": "Vous devez vous connecter pour soumettre un avis.",
+    "reviews": "avis",
+    "out_of_5": "sur 5",
+    "write_review": "Rédiger un Avis",
+    "no_reviews_yet": "Aucun avis pour le moment",
+    "be_first_to_review": "Soyez le premier à évaluer ce produit !",
+    "stars": "étoiles",
+    "you_save": "Vous économisez",
+    "guest_order_note": "Vous pouvez commander sans créer de compte",
+    "have_account": "Vous avez déjà un compte ?",
+    "sku": "Référence",
+    "in_stock": "En Stock",
+    "out_of_stock": "Rupture de Stock",
+    "detail_1": "100% Ingrédients Naturels",
+    "detail_2": "Fabriqué Artisanalement",
+    "detail_3": "Sans Conservateurs Artificiels",
+    "detail_4": "Apiculture Durable",
+    "allergy_warning": "Contient des ingrédients naturels. Peut provoquer des réactions allergiques chez les personnes sensibles.",
+    "no_ingredients": "Aucune information sur les ingrédients disponible",
+    "description": "Description du Produit",
+    "tabs": {
+      "description": "Description",
+      "ingredients": "Ingrédients",
+      "reviews": "Avis",
+      "shipping": "Infos Livraison"
+    },
+    "place_order": "Passer Votre Commande",
+    "name_placeholder": "Votre nom complet",
+    "email_placeholder": "Votre adresse e-mail",
+    "phone_placeholder": "Votre numéro de téléphone",
+    "select_city": "Sélectionnez votre ville",
+    "review_error": "Échec de la soumission de l'avis. Veuillez réessayer.",
+    "fetch_error": "Échec du chargement des détails du produit",
     "not_found": "Produit non trouvé",
     "on_promo": "En Promotion",
     "ingredients": "Ingrédients",
     "weight": "Poids",
     "quantity": "Quantité",
-    "available": "Disponible: {{stock}}",
+    "available": "Disponible : {{stock}}",
     "add_to_cart": "Ajouter au panier",
-    "added_to_cart": "{{quantity}} {{name}} ajouté(s) au panier!",
+    "added_to_cart": "{{quantity}} {{name}} ajouté(s) au panier !",
     "fill_info_error": "Veuillez remplir toutes vos informations avant d'acheter",
-    "order_placed": "Commande passée! Total: {{total}} €",
-    "review_thanks": "Merci pour votre avis!",
+    "order_placed": "Commande passée ! Total : {{total}} DH",
+    "review_thanks": "Merci pour votre avis !",
     "leave_review": "Laisser un avis",
     "your_rating": "Votre note",
     "comment": "Commentaire",
     "comment_placeholder": "Partagez votre expérience avec ce produit...",
-    "customer_reviews": "Avis des clients",
-    "publish_review": "Publier un avis",
+    "customer_reviews": "Avis Clients",
+    "publish_review": "Publier l'Avis",
     "no_reviews": "Aucun avis pour ce produit pour le moment.",
-    "similar_products": "Produits similaires",
+    "similar_products": "Produits Similaires",
     "no_similar_products": "Aucun produit similaire trouvé.",
-    "complete_order": "Complétez votre commande",
+    "complete_order": "Finaliser Votre Commande",
     "total": "Total",
     "name": "Nom",
     "phone": "Téléphone",
     "city": "Ville",
-    "delivery_address": "Adresse de livraison",
+    "delivery_address": "Adresse de Livraison",
     "address_placeholder": "Entrez votre adresse de livraison complète",
-    "order_note": "Note de commande",
+    "order_note": "Note de Commande",
     "order_note_placeholder": "Instructions spéciales pour votre commande...",
-    "complete_purchase": "Finaliser l'achat",
+    "complete_purchase": "Finaliser l'Achat",
     "decrease_quantity": "Diminuer la quantité",
     "increase_quantity": "Augmenter la quantité",
     "star_rating": "Noter {{star}} étoiles"
@@ -72,12 +123,16 @@
     "cancel": "Annuler",
     "submit": "Soumettre",
     "optional": "Optionnel",
-    "currency": "{{value}} €"
+    "retry": "Réessayer",
+    "login_here": "Se connecter ici",
+    "home": "Accueil",
+    "products": "Produits",
+    "currency": "{{value}} DH"
   },
   "home": {
     "slide1": {
-      "title": "Miel aux Herbes Naturel Pur",
-      "description": "Découvrez le pouvoir guérisseur de la nature avec notre collection premium de miel aux herbes",
+      "title": "Miel aux Herbes Pur et Naturel",
+      "description": "Découvrez le pouvoir guérisseur de la nature avec notre collection premium de miels aux herbes",
       "cta_text": "Acheter Maintenant"
     },
     "slide2": {
@@ -85,7 +140,7 @@
       "description": "Profitez de remises limitées sur nos produits les plus populaires",
       "cta_text": "Voir les Offres"
     },
-    "learn_more": "En Savoir Plus",
+    "learn_more": "En savoir plus",
     "previous_slide": "Diapositive précédente",
     "next_slide": "Diapositive suivante",
     "go_to_slide": "Aller à la diapositive {{number}}",
@@ -94,7 +149,7 @@
     "features": {
       "natural": {
         "title": "100% Naturel",
-        "description": "Notre miel est pur, brut et exempt d'additifs ou de conservateurs."
+        "description": "Notre miel est pur, brut et sans additifs ni conservateurs."
       },
       "healing": {
         "title": "Propriétés Curatives",
@@ -106,22 +161,22 @@
       }
     },
     "popular_products": "Nos Produits Populaires",
-    "products_description": "Découvrez nos variétés de miel aux herbes les plus appréciées, chacune avec des bienfaits et des saveurs uniques.",
+    "products_description": "Découvrez nos variétés de miels aux herbes les plus appréciées, chacune avec des bienfaits et des saveurs uniques.",
     "products": {
-      "raw_honey": { "name": "Miel de Fleurs Sauvages Brut" },
+      "raw_honey": { "name": "Miel Brut de Fleurs Sauvages" },
       "cinnamon_honey": { "name": "Miel Crémeux à la Cannelle" },
-      "comb_honey": { "name": "Boîte de Miel en Rayon" }
+      "comb_honey": { "name": "Boîte de Rayons de Miel" }
     },
     "weight": "Poids",
     "add_to_cart": "Ajouter au Panier",
     "view_all_products": "Voir Tous les Produits",
     "our_story": "Notre Histoire",
-    "story_paragraph1": "Fondée par des passionnés d'apiculture, Herbal Honey a commencé comme une petite entreprise familiale avec seulement quelques ruches. Notre passion pour la guérison naturelle et les pratiques durables s'est transformée en une mission de partager les bienfaits du miel infusé aux herbes avec le monde.",
-    "story_paragraph2": "Aujourd'hui, nous travaillons avec un réseau d'apiculteurs locaux qui partagent notre engagement envers l'apiculture éthique et la gestion environnementale. Chaque lot de miel est soigneusement infusé avec des herbes biologiques pour créer des produits non seulement délicieux mais aussi offrant de véritables bienfaits pour la santé.",
+    "story_paragraph1": "Fondée par des passionnés d'apiculture, Herbal Honey a commencé comme une petite entreprise familiale avec seulement quelques ruches. Notre passion pour la guérison naturelle et les pratiques durables s'est transformée en une mission : partager les bienfaits du miel infusé aux herbes avec le monde.",
+    "story_paragraph2": "Aujourd'hui, nous travaillons avec un réseau d'apiculteurs locaux qui partagent notre engagement envers une apiculture éthique et la gestion environnementale. Chaque lot de miel est soigneusement infusé avec des herbes biologiques pour créer des produits qui sont non seulement délicieux mais qui offrent également de véritables bienfaits pour la santé.",
     "beekeeper_alt": "Apiculteur avec du miel",
-    "testimonials": "Ce que Disent Nos Clients",
+    "testimonials": "Ce Que Disent Nos Clients",
     "testimonial1": {
-      "text": "C'est le meilleur miel que j'ai jamais goûté ! Le miel infusé à la lavande m'aide beaucoup à mieux dormir.",
+      "text": "C'est le meilleur miel que j'aie jamais goûté ! Le miel infusé à la lavande m'aide beaucoup à mieux dormir.",
       "author": "Sarah G.",
       "role": "Cliente Régulière"
     },
@@ -138,21 +193,20 @@
     "newsletter": {
       "title": "Restez Informé",
       "description": "Abonnez-vous à notre newsletter pour recevoir des mises à jour sur les nouveaux produits, les offres spéciales et les conseils santé.",
-      "placeholder": "Votre adresse email",
+      "placeholder": "Votre adresse e-mail",
       "button": "S'abonner"
     }
   },
-
-    "about": {
+  "about": {
     "hero": {
-      "title": "À propos de Herbal Honey",
-      "description": "Depuis plus d'une décennie, nous nous consacrons à fournir les produits de miel aux herbes les plus purs et les plus bénéfiques directement des bienfaits de la nature."
+      "title": "À Propos de Herbal Honey",
+      "description": "Depuis plus d'une décennie, nous nous consacrons à fournir les produits de miel aux herbes les plus purs et les plus bénéfiques, directement issus des richesses de la nature."
     },
     "story": {
       "title": "Notre Histoire",
-      "paragraph1": "Fondée par des passionnés d'apiculture, Herbal Honey a commencé comme une petite entreprise familiale avec seulement quelques ruches. Notre passion pour la guérison naturelle et les pratiques durables s'est transformée en une mission de partager les bienfaits du miel infusé aux herbes avec le monde.",
-      "paragraph2": "Aujourd'hui, nous travaillons avec un réseau d'apiculteurs locaux qui partagent notre engagement envers l'apiculture éthique et la gestion environnementale. Chaque lot de miel est soigneusement infusé avec des herbes biologiques pour créer des produits non seulement délicieux mais aussi offrant de véritables bienfaits pour la santé.",
-      "paragraph3": "Nous croyons au pouvoir de la nature pour guérir et nourrir, et nous nous engageons à préserver les méthodes traditionnelles d'apiculture tout en innovant avec de nouveaux mélanges d'herbes qui répondent aux besoins de bien-être modernes.",
+      "paragraph1": "Fondée par des passionnés d'apiculture, Herbal Honey a commencé comme une petite entreprise familiale avec seulement quelques ruches. Notre passion pour la guérison naturelle et les pratiques durables s'est transformée en une mission : partager les bienfaits du miel infusé aux herbes avec le monde.",
+      "paragraph2": "Aujourd'hui, nous travaillons avec un réseau d'apiculteurs locaux qui partagent notre engagement envers une apiculture éthique et la gestion environnementale. Chaque lot de miel est soigneusement infusé avec des herbes biologiques pour créer des produits qui sont non seulement délicieux mais qui offrent également de véritables bienfaits pour la santé.",
+      "paragraph3": "Nous croyons au pouvoir de la nature pour guérir et nourrir, et nous nous engageons à préserver les méthodes d'apiculture traditionnelles tout en innovant avec de nouveaux mélanges à base de plantes qui répondent aux besoins de bien-être modernes.",
       "image_alt": "Apiculteur avec du miel"
     },
     "values": {
@@ -168,33 +222,31 @@
       },
       "healing": {
         "title": "Guérison",
-        "description": "Nous sélectionnons soigneusement des herbes connues pour leurs propriétés médicinales pour créer des mélanges de miel qui soutiennent la guérison naturelle et le bien-être général."
+        "description": "Nous sélectionnons soigneusement des herbes connues pour leurs propriétés médicinales afin de créer des mélanges de miel qui soutiennent la guérison naturelle et le bien-être général."
       }
-    }},
-
-
-
-    "products": {
+    }
+  },
+  "products": {
     "title": "Nos Produits",
-    "description": "Découvrez notre gamme de produits de miel aux herbes premium, chacun fabriqué avec soin et des ingrédients naturels.",
+    "description": "Découvrez notre gamme de produits premium de miels aux herbes, chacun élaboré avec soin et des ingrédients naturels.",
     "on_promo": "En Promotion",
     "ingredients": "Ingrédients",
     "weight": "Poids",
     "see_details": "Voir les détails",
     "loading": "Chargement des produits...",
-    "fetch_error": "Échec du chargement des produits. Affichage des produits d'exemple.",
+    "fetch_error": "Échec du chargement des produits. Affichage de produits d'exemple.",
     "no_products": "Aucun produit disponible",
     "check_back": "Veuillez revenir plus tard pour les nouvelles arrivées.",
     "fallback": {
       "manuka": {
-        "name": "Miel aux Herbes de Manuka",
+        "name": "Miel aux Herbes Manuka",
         "description": "Riche en antioxydants avec de puissantes propriétés antibactériennes.",
         "ingredient1": "Miel de Manuka",
         "ingredient2": "Herbes Biologiques"
       },
       "lavender": {
         "name": "Miel Infusé à la Lavande",
-        "description": "Propriétés calmantes avec un arôme et une saveur florale délicats.",
+        "description": "Propriétés calmantes avec un arôme et une saveur florale délicate.",
         "ingredient1": "Miel de Fleurs Sauvages",
         "ingredient2": "Essence de Lavande"
       },
@@ -206,5 +258,36 @@
         "ingredient3": "Curcuma Biologique"
       }
     }
+  },
+  "orders": {
+    "my_orders": "Mes Commandes",
+    "order_history": "Votre historique et détails de commande",
+    "fetch_error": "Échec du chargement des commandes",
+    "no_orders": "Aucune commande pour le moment",
+    "no_orders_desc": "Vous n'avez passé aucune commande pour le moment.",
+    "start_shopping": "Commencer à Magasiner",
+    "order": "Commande",
+    "status": {
+      "pending": "En Attente",
+      "processing": "En Cours de Traitement",
+      "completed": "Terminée",
+      "cancelled": "Annulée",
+      "shipped": "Expédiée"
+    },
+    "cancel_order": "Annuler la Commande",
+    "cancel_confirm_title": "Annuler la Commande ?",
+    "cancel_confirm_message": "Êtes-vous sûr de vouloir annuler cette commande ? Cette action ne peut pas être annulée.",
+    "confirm_cancel": "Oui, Annuler la Commande",
+    "cancelling": "Annulation en cours...",
+    "cancel_success": "Commande annulée avec succès",
+    "cancel_error": "Échec de l'annulation de la commande",
+    "shipping_address": "Adresse de Livraison",
+    "payment_info": "Informations de Paiement",
+    "payment_method": "Moyen de Paiement",
+    "payment_status": "Statut du Paiement",
+    "order_items": "Articles de la Commande",
+    "quantity": "Quantité",
+    "each": "chaque",
+    "total": "Total"
   }
 }

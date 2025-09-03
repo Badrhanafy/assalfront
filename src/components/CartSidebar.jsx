@@ -235,7 +235,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                   {t('cart.shipping_notice')}
                 </p>
                 <Link
-                  to="/checkout"
+                  to="/Cart"
                   onClick={onClose}
                   className="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700"
                 >

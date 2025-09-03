@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import Lottie from 'lottie-react';
 import animationData from '../assets/Honeybee.json';
 import DotGrid from '../components/Animating/DotGrid';
-
+import img from "../assets/honey.jpg"
 const About = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
@@ -98,7 +98,7 @@ const About = () => {
             <div className={isRTL ? 'md:order-1' : ''}>
               <div className="relative group shine overflow-hidden rounded-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=80"
+                  src={img}
                   alt={t('about.story.image_alt')}
                   className="w-full h-auto scale-110 group-hover:scale-105 transition-transform duration-700"
                 />

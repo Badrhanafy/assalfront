@@ -64,3 +64,17 @@ body {
 .footer h3 {
   font-family: "footer3";
 }
+
+@font-face {
+  font-family: "links";
+  src: url('./assets/fonts/BOLDEAN.ttf');
+}
+
+@font-face {
+  font-family: "links2";
+  src: url('./assets/fonts/links2.ttf');
+}
+.headlinks{
+  font-family: "links2";
+  /* letter-spacing: 0.04cm; */
+}
