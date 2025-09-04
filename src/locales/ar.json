@@ -129,6 +129,7 @@
     "currency": "{{value}} درهم"
   },
   "home": {
+    "view_details":"رؤية التفاصيل",
     "slide1": {
       "title": "عسل أعشاب نقي طبيعي",
       "description": "اكتشف قوة الشفاء الطبيعية مع مجموعة عسل الأعشاب الممتازة لدينا",
@@ -166,7 +167,9 @@
       "cinnamon_honey": { "name": "عسل القرفة الكريمي" },
       "comb_honey": { "name": "صندوق عسل مشط" }
     },
-    "weight": "الوزن",
+    "read_more":"اطلع على المزيد ",
+     "product_added_to_cart": "   إلى العربة     {{product}}  تم إضافة ",
+    "weight": " (غ) الوزن", 
     "add_to_cart": "إضافة إلى العربة",
     "view_all_products": "عرض جميع المنتجات",
     "our_story": "قصتنا",

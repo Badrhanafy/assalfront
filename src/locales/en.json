@@ -131,6 +131,7 @@
     "currency": "DH{{value}}"
   },
   "home": {
+    "view_details":"view Details",
     "slide1": {
       "title": "Pure Natural Herbal Honey",
       "description": "Discover the healing power of nature with our premium herbal honey collection",
@@ -168,7 +169,9 @@
       "cinnamon_honey": { "name": "Creamy Cinnamon Honey" },
       "comb_honey": { "name": "Comb Honey Box" }
     },
-    "weight": "Weight",
+    "read_more":"Read more ",
+    "product_added_to_cart": "{{product}} added to cart!",
+    "weight": "Weight (g)",
     "add_to_cart": "Add to Cart",
     "view_all_products": "View All Products",
     "our_story": "Our Story",

@@ -115,7 +115,7 @@ export const ScrollVelocity = ({
     return (
       <div
         className={`${parallaxClassName} relative overflow-hidden`}
-        style={parallaxStyle}
+        style={{ direction: 'ltr', ...parallaxStyle }} // Force LTR direction
       >
         <motion.div
           className={`${scrollerClassName} flex whitespace-nowrap text-center font-sans text-4xl font-bold tracking-[-0.02em] drop-shadow md:text-[5rem] md:leading-[5rem]`}
@@ -128,7 +128,7 @@ export const ScrollVelocity = ({
   }
 
   return (
-    <section>
+    <section style={{ direction: 'ltr' }}> {/* Force LTR direction for the entire section */}
       {texts.map((text, index) => (
         <VelocityText
           key={index}

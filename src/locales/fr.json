@@ -130,6 +130,7 @@
     "currency": "{{value}} DH"
   },
   "home": {
+    "view_details":"voir les detailles ",
     "slide1": {
       "title": "Miel aux Herbes Pur et Naturel",
       "description": "Découvrez le pouvoir guérisseur de la nature avec notre collection premium de miels aux herbes",
@@ -167,7 +168,9 @@
       "cinnamon_honey": { "name": "Miel Crémeux à la Cannelle" },
       "comb_honey": { "name": "Boîte de Rayons de Miel" }
     },
-    "weight": "Poids",
+    "read_more":"voir plus ! ",
+     "product_added_to_cart": "{{product}} a ete ajoute au panier !",
+    "weight": "Poids (g)",
     "add_to_cart": "Ajouter au Panier",
     "view_all_products": "Voir Tous les Produits",
     "our_story": "Notre Histoire",

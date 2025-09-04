@@ -14,6 +14,7 @@ import bee from '../assets/bee.jpg'
 import ScrollVelocity from '../components/Animating/ScrollVelocity';
 import ClickSpark from '../components/Animating/ClickSpark';
 import { ScrollProgress } from '../components/animate-ui/radix/scroll-progress';
+import ProductCard from '../components/ProductCard';
 // Configure axios
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_ENDPOINT;
 
@@ -99,7 +100,7 @@ const baseurl = import.meta.env.VITE_BACKEND_ENDPOINT
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${baseurl}/products`);
+      const response = await axios.get(`${baseurl}/api/products`);
       setProducts(response.data.slice(0, 3)); // Show only 3 products on homepage
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -269,28 +270,7 @@ const baseurl = import.meta.env.VITE_BACKEND_ENDPOINT
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {products.map((product) => (
-              <motion.div
-                key={product.id}
-                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow"
-                whileHover={{ y: -8, scale: 1.02 }}
-                transition={{ type: 'spring', stiffness: 300 }}
-              >
-                <div className="h-48 bg-cover bg-center" style={{ backgroundImage: `url(http://localhost:8000/${product.image})` }}></div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-semibold text-amber-900">{product.product_name}</h3>
-                    <span className="bg-amber-100 text-amber-700 text-sm font-medium px-2 py-1 rounded">
-                      {t('common.currency', { value: product.price })}
-                    </span>
-                  </div>
-                  <p className="text-amber-600 mb-4">
-                    {t('home.weight')}: {product.weight}
-                  </p>
-                  <button className="w-full bg-amber-500 hover:bg-amber-600 text-white py-2 rounded-lg transition-colors">
-                    {t('home.add_to_cart')}
-                  </button>
-                </div>
-              </motion.div>
+             <ProductCard key={product.id} product={product} />
             ))}
           </div>
 
