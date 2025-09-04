@@ -81,33 +81,41 @@ const FeaturesSection = () => {
               <span className="absolute inset-0 bg-orange-500 w-0 group-hover:w-full transition-all duration-300 ease-in-out"></span>
             </Link>
           </div>
-
-          {/* Right Column - Animated Cards */}
-          <div className={`relative w-full max-w-[500px] h-96 lg:h-[400px] flex justify-center items-center mx-auto ${isRTL ? 'lg:mr-8' : 'lg:ml-8'}`}>
-            <CardSwap
-              cardDistance={20}
-              verticalDistance={60}
-              delay={4000}
-              pauseOnHover={true}
-            >
-              {features.map(({ key, icon, title, desc, img }) => (
-                <Card
-                  key={key}
-                  className="rounded-xl shadow-lg bg-cover bg-center cardswaper text-white "
-                  style={{ backgroundImage: `url(${img})`, }}
-                  
-                >
-                  <div style={{border:"1px solid orange"}} className="p-6 text-center bg-black/50 h-full rounded-xl">
-                    <div className="w-16 h-16 mb-4 mx-auto flex items-center justify-center rounded-full bg-amber-100 text-2xl">
-                      {icon}
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">{title}</h3>
-                    <p className="text-sm">{desc}</p>
-                  </div>
-                </Card>
-              ))}
-            </CardSwap>
+{/* Right Column - Animated Cards */}
+<div 
+  className={`
+    relative 
+    w-full 
+    max-w-[500px] 
+    h-80 sm:h-96 lg:h-[400px]  
+    flex justify-center items-center 
+    mx-auto
+    ${isRTL ? 'lg:mr-8' : 'lg:ml-8'}
+  `}
+>
+  <CardSwap
+    cardDistance={20}
+    verticalDistance={60}
+    delay={4000}
+    pauseOnHover={true}
+  >
+    {features.map(({ key, icon, title, desc, img }) => (
+      <Card
+        key={key}
+        className="rounded-xl shadow-lg bg-cover bg-center text-white"
+        style={{ backgroundImage: `url(${img})` }}
+      >
+        <div className="p-6 text-center bg-black/50 h-full rounded-xl border border-orange-500">
+          <div className="w-16 h-16 mb-4 mx-auto flex items-center justify-center rounded-full bg-amber-100 text-2xl">
+            {icon}
           </div>
+          <h3 className="text-xl font-semibold mb-2">{title}</h3>
+          <p className="text-sm">{desc}</p>
+        </div>
+      </Card>
+    ))}
+  </CardSwap>
+</div>
         </div>
       </section>
     </div>

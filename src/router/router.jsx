@@ -10,6 +10,7 @@ import ProductDetails from "../pages/ProductDetails.jsx";
 import Cart from "../components/Cart.jsx";
 import ScrollFloat from "../pages/ScrollFloat.jsx";
 import OrderHistory from "../pages/OrderHistory.jsx";
+import LoginSuccess from "../pages/LoginSuccess";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
   {
     path: "/user/:id/orders",
     element:<OrderHistory />
+  },
+  {
+    path: "/login/success",
+    element:<LoginSuccess  />
   }
  
 ]);

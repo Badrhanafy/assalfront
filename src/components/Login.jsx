@@ -54,7 +54,7 @@ const Login = () => {
 
   const handleGoogleLogin = () => {
     // Redirect to Google OAuth endpoint
-    window.location.href = 'http://localhost:8000/api/auth/google';
+    window.location.href = 'http://localhost:8000/auth/google/redirect';
   };
 
   return (

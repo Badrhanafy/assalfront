@@ -5,9 +5,10 @@ import axios from 'axios';
 import CartSidebar from './CartSidebar';
 import animationdata from '../assets/beelooking.json';
 import Lottie from 'lottie-react';
-import logoPng from "../assets/llogoAssal.png"; // PNG version for non-scrolled state
-import logoSvg from "../assets/llogoAssal.svg"; // SVG version for scrolled state
-import schopingAnimation from '../assets/shooping2.json'
+import logoPng from "../assets/llogoAssal.png";
+import logoSvg from "../assets/llogoAssal.svg";
+import schopingAnimation from '../assets/shooping2.json';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
   const { t, i18n } = useTranslation();
@@ -30,7 +31,8 @@ const Header = () => {
   const headerRef = useRef();
   const searchRef = useRef();
   const languageRef = useRef();
- const baseurl = import.meta.env.VITE_BACKEND_ENDPOINT
+  const baseurl = import.meta.env.VITE_BACKEND_ENDPOINT;
+
   // Language configuration
   const languages = [
     { code: 'en', name: 'English', flag: 'https://flagcdn.com/w40/us.png', dir: 'ltr' },
@@ -57,6 +59,61 @@ const Header = () => {
     fetchAllProducts();
   }, []);
 
+  // Check for user authentication on component mount and when token changes
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (token) {
+        try {
+          const userData = localStorage.getItem('user');
+          if (userData) {
+            setUser(JSON.parse(userData));
+          } else {
+            await fetchUserData(token);
+          }
+        } catch (error) {
+          console.error('Error checking auth status:', error);
+          localStorage.removeItem('token');
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
+    };
+
+    checkAuthStatus();
+
+    const handleAuthChange = () => checkAuthStatus();
+    window.addEventListener('authStateChange', handleAuthChange);
+    
+    return () => {
+      window.removeEventListener('authStateChange', handleAuthChange);
+    };
+  }, []);
+
+  // Fetch user data from API
+  const fetchUserData = async (token) => {
+    try {
+      const response = await axios.get(`${baseurl}/api/user`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (response.data) {
+        setUser(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      setUser(null);
+    }
+  };
+
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -79,18 +136,31 @@ const Header = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Initial auth/cart setup
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('user');
-    if (token && userData) {
+  // Update cart count
+  const updateCartCount = () => {
+    const cart = localStorage.getItem('cart');
+    if (cart) {
       try {
-        setUser(JSON.parse(userData));
+        const cartItems = JSON.parse(cart);
+        setCartItemsCount(cartItems.reduce((count, item) => count + item.quantity, 0));
       } catch (err) {
         console.error(err);
       }
+    } else {
+      setCartItemsCount(0);
     }
+  };
+
+  // Initial cart setup
+  useEffect(() => {
     updateCartCount();
+  }, []);
+
+  // Listen for cart updates
+  useEffect(() => {
+    const handleCartUpdate = () => updateCartCount();
+    window.addEventListener('cartUpdated', handleCartUpdate);
+    return () => window.removeEventListener('cartUpdated', handleCartUpdate);
   }, []);
 
   // Body scroll lock
@@ -107,28 +177,6 @@ const Header = () => {
     }
   }, [isSearchOpen]);
 
-  // Update cart count
-  const updateCartCount = () => {
-    const cart = localStorage.getItem('cart');
-    if (cart) {
-      try {
-        const cartItems = JSON.parse(cart);
-        setCartItemsCount(cartItems.reduce((count, item) => count + item.quantity, 0));
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
-      setCartItemsCount(0);
-    }
-  };
-
-  // Listen for cart updates
-  useEffect(() => {
-    const handleCartUpdate = () => updateCartCount();
-    window.addEventListener('cartUpdated', handleCartUpdate);
-    return () => window.removeEventListener('cartUpdated', handleCartUpdate);
-  }, []);
-
   // Filter products based on search query
   useEffect(() => {
     if (searchQuery.trim() === '') {
@@ -140,7 +188,6 @@ const Header = () => {
 
     const query = searchQuery.toLowerCase().trim();
     
-    // Simple filtering based on product name
     const filteredProducts = allProducts.filter(product => 
       product && product.product_name && product.product_name.toLowerCase().includes(query)
     );
@@ -164,6 +211,8 @@ const Header = () => {
     setUser(null);
     setIsSidebarOpen(false);
     setIsMenuOpen(false);
+    
+    window.dispatchEvent(new Event('authStateChange'));
     navigate('/');
   };
 
@@ -193,7 +242,7 @@ const Header = () => {
           ${i18n.language === 'ar' ? 'font-arabic' : 'font-sans'}`}
       >
         <div className="container mx-auto px-4 h-full flex justify-between items-center">
-          {/* Logo - Conditionally render based on scroll state */}
+          {/* Logo */}
           <Link
             to="/"
             className="text-2xl font-serif font-bold text-amber-700 transition-colors hover:text-amber-800"
@@ -206,35 +255,34 @@ const Header = () => {
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <center>
-               <nav className="hidden md:flex space-x-8">
-            {['/', '/products', '/about'].map((path, index) => (
-              <Link
-                key={index}
-                to={path}
-                className={`headlinks relative group px-3 py-2 font-medium transition-all duration-300 ${
-                  isActiveRoute(path) 
-                    ? `${scrolled ? 'text-white' : 'text-amber-700'} font-bold` 
-                    : `${scrolled ? 'text-white/90 hover:text-white' : 'text-yellow-500 hover:text-amber-600'}`
-                }`}
-              >
-                {t(`header.${path === '/' ? 'home' : path.slice(1)}`)}
-                
-                {/* Animated underline */}
-                <span className={`absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full ${
-                  isActiveRoute(path) ? 'w-full' : ''
-                }`}></span>
-              </Link>
-            ))}
-          </nav>
+          {/* Desktop Navigation - Hidden on mobile */}
+          <center className="hidden md:block">
+            <nav className="flex space-x-8">
+              {['/', '/products', '/about'].map((path, index) => (
+                <Link
+                  key={index}
+                  to={path}
+                  className={`headlinks relative group px-3 py-2 font-medium transition-all duration-300 ${
+                    isActiveRoute(path) 
+                      ? `${scrolled ? 'text-white' : 'text-amber-700'} font-bold` 
+                      : `${scrolled ? 'text-white/90 hover:text-white' : 'text-yellow-500 hover:text-amber-600'}`
+                  }`}
+                >
+                  {t(`header.${path === '/' ? 'home' : path.slice(1)}`)}
+                  
+                  <span className={`absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full ${
+                    isActiveRoute(path) ? 'w-full' : ''
+                  }`}></span>
+                </Link>
+              ))}
+            </nav>
           </center>
 
           {/* Action Icons */}
           <div className="flex items-center space-x-3 sm:space-x-4">
-            {/* Search Button */}
+            {/* Search Button - Hidden on mobile */}
             <button
-              className={`p-2 transition-colors rounded-lg hover:bg-amber-50 ${
+              className={`hidden md:block p-2 transition-colors rounded-lg hover:bg-amber-50 ${
                 scrolled ? 'text-white/90 hover:text-white' : 'text-yellow-500 hover:text-amber-600'
               }`}
               onClick={() => setIsSearchOpen(true)}
@@ -243,8 +291,8 @@ const Header = () => {
               <SearchIcon />
             </button>
 
-            {/* Language Selector */}
-            <div className="relative" ref={languageRef}>
+            {/* Language Selector - Hidden on mobile */}
+            <div className="relative hidden md:block" ref={languageRef}>
               <button
                 style={{
                   border: scrolled ? "1px solid rgba(255,255,255,0.5)" : "1px solid yellow"
@@ -290,10 +338,10 @@ const Header = () => {
               )}
             </div>
 
-            {/* User Account */}
+            {/* User Account - Hidden on mobile */}
             {user ? (
               <button
-                className={`p-2 transition-colors rounded-lg hover:bg-amber-50 ${
+                className={`hidden md:block p-2 transition-colors rounded-lg hover:bg-amber-50 ${
                   scrolled ? 'text-white/90 hover:text-white' : 'text-gray-600 hover:text-amber-600'
                 }`}
                 onClick={() => setIsSidebarOpen(true)}
@@ -302,13 +350,13 @@ const Header = () => {
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center font-medium border-2 ${
                   scrolled ? 'bg-white/20 text-white border-white/30' : 'bg-amber-100 text-amber-700 border-amber-200'
                 }`}>
-                  {user.name?.charAt(0).toUpperCase() || 'U'}
+                  {user.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || 'U'}
                 </div>
               </button>
             ) : (
               <Link
                 to="/login"
-                className={`p-2 transition-colors rounded-lg hover:bg-amber-50 ${
+                className={`hidden md:block p-2 transition-colors rounded-lg hover:bg-amber-50 ${
                   scrolled ? 'text-white/90 hover:text-white' : 'text-gray-600 hover:text-amber-600'
                 }`}
                 aria-label={t('header.login')}
@@ -335,9 +383,9 @@ const Header = () => {
               )}
             </button>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Always visible */}
             <button
-              className={`md:hidden p-2 transition-colors rounded-lg hover:bg-amber-50 ${
+              className={`p-2 transition-colors rounded-lg hover:bg-amber-50 ${
                 scrolled ? 'text-white/90 hover:text-white' : 'text-gray-600 hover:text-amber-600'
               }`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -348,72 +396,191 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200">
-            <nav className="px-4 py-3 space-y-1">
-              {['/', '/products', '/about'].map((path, index) => (
-                <Link
-                  key={index}
-                  to={path}
-                  className={`flex items-center px-4 py-3 rounded-lg transition-colors ${
-                    isActiveRoute(path)
-                      ? 'bg-amber-50 text-amber-700'
-                      : 'text-gray-700 hover:bg-amber-50/50 hover:text-amber-600'
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {index === 0 && <HomeIcon className="w-5 h-5 mr-3" />}
-                  {index === 1 && <ProductsIcon className="w-5 h-5 mr-3" />}
-                  {index === 2 && <AboutIcon className="w-5 h-5 mr-3" />}
-                  {t(`header.${path === '/' ? 'home' : path.slice(1)}`)}
-                </Link>
-              ))}
-
-              <div className="border-t border-gray-200 my-2" />
-
-              {user ? (
-                <>
-                  <Link
-                    to="/profile"
-                    className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <UserIcon className="w-5 h-5 mr-3" />
-                    {t('header.profile')}
-                  </Link>
-                  <Link
-                    to="/orders"
-                    className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <OrderIcon className="w-5 h-5 mr-3" />
-                    {t('header.my_orders')}
-                  </Link>
+        {/* Mobile Navigation Sidebar */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="md:hidden fixed inset-y-0 right-0 w-80 bg-gradient-to-b from-amber-50 to-orange-50 z-50 shadow-2xl border-l border-amber-200"
+            >
+              <div className="h-full flex flex-col">
+                {/* Header */}
+                <div className="flex items-center justify-between p-6 border-b border-amber-200">
+                  <div className="flex items-center">
+                    <img 
+                      src={logoPng} 
+                      alt="Al-Naaman Apiaries Logo"  
+                      width={'60px'}
+                      height={"30px"}
+                    />
+                  </div>
                   <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsMenuOpen(false);
-                    }}
-                    className="flex items-center w-full px-4 py-3 rounded-lg text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition-colors text-left"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="p-2 text-amber-600 hover:text-amber-700 transition-colors rounded-lg hover:bg-amber-100"
                   >
-                    <LogoutIcon className="w-5 h-5 mr-3" />
-                    {t('header.logout')}
+                    <CloseIcon className="w-6 h-6" />
                   </button>
-                </>
-              ) : (
-                <Link
-                  to="/login"
-                  className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <LoginIcon className="w-5 h-5 mr-3" />
-                  {t('header.login')}
-                </Link>
-              )}
-            </nav>
-          </div>
-        )}
+                </div>
+
+                {/* Navigation Links */}
+                <nav className="flex-1 p-6 space-y-4 overflow-y-auto">
+                  {/* Main Navigation */}
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold text-amber-800 uppercase tracking-wider mb-4">
+                      {t('header.navigation')}
+                    </h3>
+                    {['/', '/products', '/about'].map((path, index) => (
+                      <Link
+                        key={index}
+                        to={path}
+                        className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 ${
+                          isActiveRoute(path)
+                            ? 'bg-amber-500 text-white shadow-lg'
+                            : 'text-amber-700 hover:bg-amber-100 hover:text-amber-900'
+                        }`}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {index === 0 && <HomeIcon className="w-5 h-5 mr-3" />}
+                        {index === 1 && <ProductsIcon className="w-5 h-5 mr-3" />}
+                        {index === 2 && <AboutIcon className="w-5 h-5 mr-3" />}
+                        <span className="font-medium">{t(`header.${path === '/' ? 'home' : path.slice(1)}`)}</span>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* User Section */}
+                  <div className="border-t border-amber-200 pt-6 mt-6">
+                    <h3 className="text-sm font-semibold text-amber-800 uppercase tracking-wider mb-4">
+                      {t('header.account')}
+                    </h3>
+                    {user ? (
+                      <>
+                        <div className="flex items-center px-4 py-3 mb-4 rounded-xl bg-amber-100/50">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-200 to-orange-200 flex items-center justify-center text-amber-700 font-bold border-2 border-amber-300">
+                            {user.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || 'U'}
+                          </div>
+                          <div className="ml-3">
+                            <p className="font-medium text-amber-900">{user.name || user.email}</p>
+                            {user.name && <p className="text-xs text-amber-600">{user.email}</p>}
+                          </div>
+                        </div>
+
+                        <Link
+                          to="/profile"
+                          className="flex items-center px-4 py-3 rounded-xl text-amber-700 hover:bg-amber-100 hover:text-amber-900 transition-colors mb-2"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <UserIcon className="w-5 h-5 mr-3" />
+                          {t('header.profile')}
+                        </Link>
+
+                        <Link
+                          to="/orders"
+                          className="flex items-center px-4 py-3 rounded-xl text-amber-700 hover:bg-amber-100 hover:text-amber-900 transition-colors mb-2"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <OrderIcon className="w-5 h-5 mr-3" />
+                          {t('header.my_orders')}
+                        </Link>
+
+                        <Link
+                          to="/cart"
+                          className="flex items-center px-4 py-3 rounded-xl text-amber-700 hover:bg-amber-100 hover:text-amber-900 transition-colors mb-4"
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setIsCartOpen(true);
+                          }}
+                        >
+                          <CartIcon className="w-5 h-5 mr-3" />
+                          {t('header.shopping_cart')}
+                          {cartItemsCount > 0 && (
+                            <span className="ml-auto bg-amber-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                              {cartItemsCount}
+                            </span>
+                          )}
+                        </Link>
+
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            setIsMenuOpen(false);
+                          }}
+                          className="flex items-center w-full px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors"
+                        >
+                          <LogoutIcon className="w-5 h-5 mr-3" />
+                          {t('header.logout')}
+                        </button>
+                      </>
+                    ) : (
+                      <Link
+                        to="/login"
+                        className="flex items-center px-4 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 transition-colors"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <LoginIcon className="w-5 h-5 mr-3" />
+                        {t('header.login')}
+                      </Link>
+                    )}
+                  </div>
+
+                  {/* Language Selector */}
+                  <div className="border-t border-amber-200 pt-6 mt-6">
+                    <h3 className="text-sm font-semibold text-amber-800 uppercase tracking-wider mb-4">
+                      {t('header.language')}
+                    </h3>
+                    <div className="grid grid-cols-1 gap-2">
+                      {languages.map((lang) => (
+                        <button
+                          key={lang.code}
+                          className={`flex items-center px-4 py-3 rounded-xl transition-colors ${
+                            i18n.language === lang.code
+                              ? 'bg-amber-500 text-white'
+                              : 'text-amber-700 hover:bg-amber-100'
+                          }`}
+                          onClick={() => changeLanguage(lang.code)}
+                        >
+                          <img
+                            src={lang.flag}
+                            alt={lang.name}
+                            className="w-5 h-4 rounded-sm mr-3"
+                          />
+                          <span className="font-medium">{lang.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Search */}
+                  <div className="border-t border-amber-200 pt-6 mt-6">
+                    <h3 className="text-sm font-semibold text-amber-800 uppercase tracking-wider mb-4">
+                      {t('header.search')}
+                    </h3>
+                    <button
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsSearchOpen(true);
+                      }}
+                      className="flex items-center w-full px-4 py-3 rounded-xl text-amber-700 hover:bg-amber-100 hover:text-amber-900 transition-colors"
+                    >
+                      <SearchIcon className="w-5 h-5 mr-3" />
+                      {t('header.search_products')}
+                    </button>
+                  </div>
+                </nav>
+
+                {/* Footer */}
+                <div className="p-6 border-t border-amber-200">
+                  <p className="text-xs text-amber-600 text-center">
+                    &copy; {new Date().getFullYear()} Al-Naaman Apiaries
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* CART SIDEBAR */}
@@ -421,17 +588,17 @@ const Header = () => {
 
       {/* USER SIDEBAR */}
       <aside
-        className={`fixed inset-y-0 right-0 z-50 w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out
+        className={`hidden md:block fixed inset-y-0 right-0 z-50 w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out
           ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <div className="flex items-center">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center text-amber-700 font-bold text-lg border-2 border-amber-200">
-              {user?.name?.charAt(0).toUpperCase() || 'U'}
+              {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || 'U'}
             </div>
             <div className="ml-4">
-              <p className="font-semibold text-gray-800">{user?.name || t('header.user')}</p>
-              <p className="text-sm text-gray-500">{user?.email || ''}</p>
+              <p className="font-semibold text-gray-800">{user?.name || user?.email || t('header.user')}</p>
+              {user?.name && <p className="text-sm text-gray-500">{user?.email || ''}</p>}
             </div>
           </div>
 
@@ -473,7 +640,7 @@ const Header = () => {
             <LogoutIcon />
             {t('header.logout')}
           </button>
-          <img src={logoPng} alt="" />
+          <img src={logoPng} alt="" className="mt-4 mx-auto w-16" />
         </nav>
       </aside>
 
@@ -627,9 +794,11 @@ const SidebarLink = ({ to, onClick, children }) => (
     {children}
   </Link>
 );
-// Icons (keep all your existing icon components)
 
-export default Header;
+// Icons (keep all your existing icon components)
+// ... (all your icon components remain the same)
+
+
 const SearchIcon = ({ className = "w-6 h-6" }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -725,4 +894,5 @@ const ArrowRightIcon = ({ className = "w-5 h-5" }) => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
   </svg>
 );
+export default Header ;
 
